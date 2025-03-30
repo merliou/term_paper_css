@@ -8,15 +8,19 @@ install.packages(setdiff(packages, rownames(installed.packages())))
 lapply(packages, library, character.only = TRUE)
 
 # data
-rezensionen_data_raw <- read.csv("~/aUni/M.A. Soziologie/24_25 WiSe/Forschungsprakt CSS/term_paper_css/collected_data/06_data_raw_no_doubles.csv")
+rezensionen_data_raw <- read.csv("~/aUni/M.A. Soziologie/24_25 WiSe/Forschungsprakt CSS/term_paper_css/collected_data/10_data_covs_avg_no_doubles.csv")
 head(rezensionen_data_raw)
-
-
 
 # Preprocessing
 
 rezensionen_data_raw$rezension <- rezensionen_data_raw$rezension
-rezensionen_data_raw$bewertung <- rezensionen_data_raw$bewertung
+rezensionen_data_raw$rating_rez <- rezensionen_data_raw$bewertung
+rezensionen_data_raw$traeger <- rezensionen_data_raw$Traeger
+rezensionen_data_raw$typ <- rezensionen_data_raw$EinrichtungsTyp
+rezensionen_data_raw$versorgungsstufe <- rezensionen_data_raw$Allgemeine_Notfallversorgung
+rezensionen_data_raw$bettenzahl <- rezensionen_data_raw$INSG
+rezensionen_data_raw$rating_avg <- rezensionen_data_raw$rating
+rezensionen_data_raw$number_of_ratings <- rezensionen_data_raw$total_ratings
 
 table(rezensionen_data_raw$bewertung)
 
@@ -62,7 +66,15 @@ summary(rezensionen_topics)
 # Lift = Überproportional häufige Worte
 # Score = Gesamtwert aus Prob, FREX und Lift
 
-plot(rezensionen_topics)
+topicNames <- c("Leidensgeschichte                                                              ", "Verpflegung und Ausstattung                                                   ", "Unfreundlichkeit und schlechte Behandlung                                        ", 
+                "Notaufnahme und Wartezeit                                                ", "Geburtshilfe                                                                         ", "Dankbarkeit und Lob                                     ",
+                "Freundlichkeit und Kompetenz                       ", "Enttäuschung und Unprofessionalität                                        ", "Therapieangebot                                                           ")
+
+
+plot(rezensionen_topics, 
+     topic.names = topicNames,
+     main = "", # Entfernt den Titel
+     xlab = "Erwarteter Themenanteil")
 
 # Entsprechende Artikel begutachten !! FUNZT NET; maybe places_id oben einfügen und damit?
 findThoughts(rezensionen_topics, texts = rezensionen_data_raw$rezension, n = 3, topics = 8)
