@@ -122,7 +122,10 @@ text(kresult$results$exclus, kresult$results$semcoh,
 topicQuality(model = rezensionen_topics,
              documents = rezensionen_dfm)
 
-
+plot(gender_diff, covariate="gender",
+     method  = "difference",
+     cov.value1 = "male", cov.value2 = "female"
+)
 
 # ------------- BTM -------------------
 
